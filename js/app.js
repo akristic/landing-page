@@ -17,8 +17,10 @@
  * Define Global Variables
  * 
 */
-const fragment = document.createDocumentFragment()
-const sectionList = document.querySelectorAll('section')
+const fragment = document.createDocumentFragment();
+const sectionList = document.querySelectorAll('section');
+
+
 /**
  * End Global Variables
  * Start Helper Functions
@@ -28,6 +30,15 @@ function createNavItemHTML(id, name){
     const itemHTML = `<a class ="menu__link" href='#${id}'>${name}</a>`;
     return itemHTML;
 }
+function isInViewport (elem) {
+    var bounding = elem.getBoundingClientRect();
+    return (
+        bounding.top >= 0 &&
+        bounding.left >= 0 &&
+        bounding.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+        bounding.right <= (window.innerWidth || document.documentElement.clientWidth)
+    );
+};
 
 /**
  * End Helper Functions
@@ -39,7 +50,6 @@ function buildNavigation(){
         const newMenuItem = document.createElement('li');
         const sectionName = sectionList[i].getAttribute('data-nav')
         const sectionId = sectionList[i].getAttribute('id')
-
         newMenuItem.innerHTML = createNavItemHTML(sectionId, sectionName)
         fragment.appendChild(newMenuItem);
     }
@@ -47,6 +57,17 @@ function buildNavigation(){
     navBarList.appendChild(fragment);
 }
 
+function setActiveClass(){
+    for (let i=0; i < sectionList.length; i++){
+        if (isInViewport(sectionList[i])){
+            sectionList[i].className = "your-active-class";
+            console.log('In the viewport!');
+        }else{
+            sectionList[i].className = "";
+            console.log('Not in viewpoint section: ' + (i+1));
+        }
+    }
+}
 
 
 
@@ -54,7 +75,7 @@ function buildNavigation(){
 buildNavigation()
 
 // Add class 'active' to section when near top of viewport
-
+setActiveClass()
 
 // Scroll to anchor ID using scrollTO event
 
@@ -64,7 +85,10 @@ buildNavigation()
  * Begin Events
  * 
 */
-
+document.addEventListener('scroll', function(){
+    console.log("scrolled");
+    setActiveClass();
+});
 // Build menu 
 
 // Scroll to section on link click
