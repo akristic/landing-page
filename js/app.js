@@ -61,10 +61,8 @@ function setActiveClass(){
     for (let i=0; i < sectionList.length; i++){
         if (isInViewport(sectionList[i])){
             sectionList[i].className = "your-active-class";
-            console.log('In the viewport!');
         }else{
             sectionList[i].className = "";
-            console.log('Not in viewpoint section: ' + (i+1));
         }
     }
 }
@@ -86,7 +84,6 @@ setActiveClass()
  * 
 */
 document.addEventListener('scroll', function(){
-    console.log("scrolled");
     setActiveClass();
 });
 // Build menu 
